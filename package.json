@@ -1,0 +1,94 @@
+{
+	"name": "date-preview",
+	"displayName": "Date Preview",
+	"description": "Preview date time as your desired time zone.",
+	"version": "1.0.0",
+	"publisher": "wxt2005",
+	"engines": {
+		"vscode": "^1.48.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"title": "Date Preview",
+			"properties": {
+				"date-preview.detect.ISO-8601String": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Whether to detect [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format date string."
+				},
+				"date-preview.detect.epochTimestamp": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to detect Epoch timestamp. Currently supports seconds and millonseconds."
+				},
+				"date-preview.localPreview.enable": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show local timezone date preview."
+				},
+				"date-preview.localPreview.format": {
+					"type": "string",
+					"default": "",
+					"markdownDescription": "Local timezone date preview format, described in [day.js format documentation](https://day.js.org/docs/en/display/format). Leave empty to use ISO-8601 format."
+				},
+				"date-preview.customPreview": {
+					"type": "array",
+					"minItems": 0,
+					"items": {
+						"type": "object",
+						"title": "Custom Preview",
+						"required": [
+							"name"
+						],
+						"properties": {
+							"name": {
+								"description": "Show as name in preview window.",
+								"type": "string"
+							},
+							"format": {
+								"description": "Used to format date display. Leave empty to use ISO-8601 format.",
+								"type": "string"
+							},
+							"utcOffset": {
+								"description": "UTC offset of custom preview timezone. If the input is between -16 and -16, it will be interpreted as hours, otherwise, minutes instead. Leave empty to use local timezone.",
+								"type": ["number", null]
+							}
+						}
+					}
+				}
+			}
+		},
+		"commands": []
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.48.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.0",
+		"@types/node": "^14.0.27",
+		"eslint": "^7.6.0",
+		"@typescript-eslint/eslint-plugin": "^3.8.0",
+		"@typescript-eslint/parser": "^3.8.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.0.1",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.4.0"
+	},
+	"dependencies": {
+		"dayjs": "^1.8.34"
+	}
+}
