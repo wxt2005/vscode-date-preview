@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as dayjs from 'dayjs';
 import * as utcPlugin from 'dayjs/plugin/utc';
 
-dayjs.extend(utcPlugin)
+dayjs.extend(utcPlugin);
 
 class DateHoverProvider implements vscode.HoverProvider, vscode.Disposable {
   private dateRegexp = {
@@ -18,16 +18,24 @@ class DateHoverProvider implements vscode.HoverProvider, vscode.Disposable {
     return vscode.workspace.getConfiguration().get<boolean>('date-preview.detect.epochTimestamp', true);
   }
 
-  get localPreviewEnabled(): boolean {
-    return vscode.workspace.getConfiguration().get<boolean>('date-preview.localPreview.enable', true);
+  get primaryPreviewEnabled(): boolean {
+    return vscode.workspace.getConfiguration().get<boolean>('date-preview.primaryPreview.enable', true);
   }
 
-  get localPreviewFormat(): string {
-    return vscode.workspace.getConfiguration().get<string>('date-preview.localPreview.format', '');
+  get primaryPreviewName(): string {
+    return vscode.workspace.getConfiguration().get<string>('date-preview.primaryPreview.name', 'GMT');
   }
 
-  get customPreivews(): Array<ICustomPreview> {
-    return vscode.workspace.getConfiguration().get<Array<ICustomPreview>>('date-preview.customPreview', []);
+  get primaryPreviewFormat(): string {
+    return vscode.workspace.getConfiguration().get<string>('date-preview.primaryPreview.format', '');
+  }
+  
+  get primaryPreviewUtcOffset(): number {
+    return vscode.workspace.getConfiguration().get<number>('date-preview.primaryPreview.utcOffset', 0);
+  }
+
+  get alternativePreivews(): Array<IPreviewConfig> {
+    return vscode.workspace.getConfiguration().get<Array<IPreviewConfig>>('date-preview.alternativePreviews', []);
   }
 
   provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
@@ -66,23 +74,25 @@ class DateHoverProvider implements vscode.HoverProvider, vscode.Disposable {
 
   buildPreviewMessage(date: dayjs.Dayjs): string {
     let res = '';
+    const priveiwConfigs = [...this.alternativePreivews];
 
-    if (this.localPreviewEnabled) {
-      const localDateFormat = this.localPreviewFormat;
-      const localDateStr = localDateFormat ? date.format(localDateFormat) : date.format();
-      res += this.buildSinglePreviewItem('Local', date.format('Z'), localDateStr);
+    if (this.primaryPreviewEnabled) {
+      const primaryPriviewConfig = {
+        name: this.primaryPreviewName,
+        format: this.primaryPreviewFormat,
+        utcOffset: this.primaryPreviewUtcOffset,
+      };
+      priveiwConfigs.unshift(primaryPriviewConfig);
     }
 
-    if (this.customPreivews.length) {
-      for (const item of this.customPreivews) {
-        if (!item.name) {
-          continue;
-        }
-
-        const dateObj = typeof item.utcOffset === 'number' ? date.utcOffset(item.utcOffset) : date;
-        const dateStr = `${item.format ? dateObj.format(item.format) : dateObj.format()}`;
-        res += this.buildSinglePreviewItem(item.name, dateObj.format('Z'), dateStr);
+    for (const item of priveiwConfigs) {
+      if (!item.name) {
+        continue;
       }
+
+      const dateObj = typeof item.utcOffset === 'number' ? date.utcOffset(item.utcOffset) : date;
+      const dateStr = `${item.format ? dateObj.format(item.format) : dateObj.format()}`;
+      res += this.buildSinglePreviewItem(item.name, dateObj.format('Z'), dateStr);
     }
 
     return res;

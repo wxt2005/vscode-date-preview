@@ -23,37 +23,46 @@
 					"default": true,
 					"markdownDescription": "Whether to detect [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format date string."
 				},
-				"date-preview.detect.epochTimestamp": {
+				"date-preview.detect.unixTime": {
 					"type": "boolean",
 					"default": true,
-					"description": "Whether to detect Epoch timestamp. Currently supports seconds and millonseconds."
+					"description": "Whether to detect Unix time. Currently supports 10/13 digits."
 				},
-				"date-preview.localPreview.enable": {
+				"date-preview.primaryPreview.enable": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show local timezone date preview."
+					"description": "Show primary date preview."
 				},
-				"date-preview.localPreview.format": {
+				"date-preview.primaryPreview.name": {
+					"type": "string",
+					"default": "GMT",
+					"markdownDescription": "Show as the name of primary preview section."
+				},
+				"date-preview.primaryPreview.format": {
 					"type": "string",
 					"default": "",
-					"markdownDescription": "Local timezone date preview format, described in [day.js format documentation](https://day.js.org/docs/en/display/format). Leave empty to use ISO-8601 format."
+					"markdownDescription": "Primary date preview format, described in [day.js format documentation](https://day.js.org/docs/en/display/format). Leave empty to use ISO-8601 format."
 				},
-				"date-preview.customPreview": {
+				"date-preview.primaryPreview.utcOffset": {
+					"description": "UTC offset of primary preview timezone. If the input is between -16 and -16, it will be interpreted as hours, otherwise, minutes instead. Leave empty to use local timezone.",
+					"type": ["number", null]
+				},
+				"date-preview.alternativePreviews": {
 					"type": "array",
 					"minItems": 0,
 					"items": {
 						"type": "object",
-						"title": "Custom Preview",
+						"title": "Alternative Preview",
 						"required": [
 							"name"
 						],
 						"properties": {
 							"name": {
-								"description": "Show as name in preview window.",
+								"description": "Show as the name of alternative preview section.",
 								"type": "string"
 							},
 							"format": {
-								"description": "Used to format date display. Leave empty to use ISO-8601 format.",
+								"description": "Used to format preivew display. Leave empty to use ISO-8601 format.",
 								"type": "string"
 							},
 							"utcOffset": {
