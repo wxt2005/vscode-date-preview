@@ -1,9 +1,10 @@
 {
 	"name": "date-preview",
 	"displayName": "Date Preview",
-	"description": "Preview date time as your desired time zone.",
+	"description": "Preview date time as your desired.",
 	"version": "1.0.0",
 	"publisher": "wxt2005",
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.48.0"
 	},

@@ -33,3 +33,6 @@ This extension contributes the following settings:
 
 Initial release
 
+## License
+
+[MIT](LICENSE.md)
