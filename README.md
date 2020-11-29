@@ -9,6 +9,8 @@ Now supports:
 * [Unix Time](https://en.wikipedia.org/wiki/Unix_time) (10/13 digits)
 * [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
 
+![Preview](resources/readme/preview.png)
+
 ## Extension Settings
 
 This extension contributes the following settings:
