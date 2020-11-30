@@ -41,7 +41,6 @@
 				},
 				"date-preview.primaryPreview.format": {
 					"type": "string",
-					"default": "",
 					"markdownDescription": "Primary date preview format, described in [day.js format documentation](https://day.js.org/docs/en/display/format). Leave empty to use ISO-8601 format."
 				},
 				"date-preview.primaryPreview.utcOffset": {
