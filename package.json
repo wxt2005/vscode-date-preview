@@ -8,6 +8,11 @@
 	"engines": {
 		"vscode": "^1.48.0"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wxt2005/vscode-date-preview"
+	},
+	"homepage": "https://github.com/wxt2005/vscode-date-preview/blob/master/README.md",
 	"categories": [
 		"Other"
 	],
